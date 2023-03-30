@@ -1,24 +1,18 @@
 # https://leetcode.com/problems/longest-palindrome/
 
 def longest_palindrome(s)
-  max_palindrome_length = 0
-  most_odd_numbered_characters = 0
-  character_count = {}
+  result = 0
+  character_count = Hash.new(0)
 
-  s.each_char do |char|
-    if character_count[char]
-      character_count[char] += 1
-    else
-      character_count[char] = 1
+  s.each_char { |char| character_count[char] += 1 } 
+
+  character_count.values.each do |count|
+    if count.even?
+      result += count
+    elsif count.odd?
+      result += count - 1
     end
   end
 
-  character_count.each do |key, value|
-    if value.even?
-      max_palindrome_length += value
-    elsif value.odd?
-      most_odd_numbered_characters = value if value > most_odd_numbered_characters
-    end
-  end
-  max_palindrome_length + most_odd_numbered_characters
+  result == s.length ? result : result + 1
 end
